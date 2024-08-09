@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Marketing Chatbot</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .container { width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; }
+        .chat-box { border: 1px solid #ccc; padding: 10px; }
+        .user-input { width: 100%; padding: 10px; }
+        .btn { padding: 10px 20px; background-color: #007BFF; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Digital Marketing Chatbot</h1>
+        <div class="chat-box" id="chat-box"></div>
+        <input type="text" id="user-input" class="user-input" placeholder="Type a message...">
+        <button class="btn" onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        function sendMessage() {
+            let userInput = document.getElementById('user-input').value;
+            fetch('/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: userInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                let chatBox = document.getElementById('chat-box');
+                chatBox.innerHTML += '<div><strong>You:</strong> ' + userInput + '</div>';
+                chatBox.innerHTML += '<div><strong>Bot:</strong> ' + data.response + '</div>';
+                document.getElementById('user-input').value = '';
+            });
+        }
+    </script>
+</body>
+</html>
